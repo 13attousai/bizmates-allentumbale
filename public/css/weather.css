@@ -1,0 +1,96 @@
+#my-map {
+    width: 100%;
+    min-height: 500px;
+    border-radius: 4px;
+    border: 1px solid #999;
+}
+
+.logo {
+    position: absolute;
+    top: 20px;
+    left: 50px;
+    width: 150px;
+    z-index: 600;
+}
+
+#wicon {
+    display: none;
+}
+
+.weather-details-container,
+.weather-details {
+    display: none;
+    position: absolute;
+    width: 30%;
+    min-height: 50vh;
+    top: 2%;
+    bottom: 2%;
+    right: 2%;
+    
+}
+
+.weather-details-container {
+    background-color: #111;
+    opacity: 50%;
+    z-index: 500;
+    border-radius: 10px;
+}
+
+.weather-details-note {
+    position: absolute;
+    z-index: 500;
+    top: 10%;
+    left: 10%;
+}
+
+.weather-details {
+    z-index: 600;
+}
+
+.list-group li {
+    border: none;
+    color: #fff;
+    background-color: transparent;
+    font-weight: 600;
+}
+
+.weather-details table tr {
+    border-color: #999;
+}
+
+.weather-details table tr td {
+    color: #fff;
+    background-color: transparent;
+}
+
+@media only screen and (max-width: 600px) {
+    .weather-details-container,
+    .weather-details {
+        width: 40%;
+        font-size: smaller;
+        right: 4%;
+    }
+
+    .list-group li {
+        border: none;
+        color: #fff;
+        background-color: transparent;
+        font-weight: 300;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .weather-details-container,
+    .weather-details {
+        width: 40%;
+        font-size: smaller;
+        right: 4%;
+    }
+
+    .list-group li {
+        border: none;
+        color: #fff;
+        background-color: transparent;
+        font-weight: 300;
+    }
+}
