@@ -1,8 +1,73 @@
-function getArticles() {
-    $.get('/articles/list', {
+if (typeof(System) === "undefined") {
+    System = {};
+};
+
+System.MainPage = function MainPage(page) {
+
+    this.GetArticles = (callback) => {
+        Request("/articles/list",
+            {},
+            "GET",
+            function(result) {
+                callback(result.data);
+            }
+        )
+    }
+
+    this.GetDestinations = (callback) => {
+        Request("/destinations/list",
+            {},
+            "GET",
+            function(result) {
+                callback(result.data);
+            }
+        )
+    }
+
+    this.GetInterests = (page, callback) => {
+        var data = {
+                        '_token': token,
+                        'page': page
+                    }
+
+        Request("/interests/list",
+            data,
+            "POST",
+            function(result) {
+                callback(result.data);
+            }
+        )
+    }
+}
+
+var module;
+var page;
+var token;
+
+$(document).ready(function() {
+    module = new System.MainPage();
+    page = window.location.pathname.replace('/', '');
+    token = $('meta[name=csrf-token]').attr('content');
+
+    getArticles();
+
+    if (page == "")
+        loadMap();
+
+    if (page== "destinations")
+        getDestinations();
+
+    if (jQuery.inArray(page, ["", "destinations"]) == -1)
+        getInterests(page);
+})
+
+$(window).on('load', function() {
     
-    }, function(data){
-        data.forEach(function(e){
+});
+
+function getArticles() {
+    module.GetArticles(function(res){
+        res.data.forEach(function(e){
             $template = $("#articles-tmpl").tmpl(e);
             $("#articles-list").append($template);
         });
@@ -10,24 +75,19 @@ function getArticles() {
 }
 
 function getDestinations() {
-    $.get('/destinations/list', {
-    
-    }, function(data){
-        data.forEach(function(e){
-        $template = $("#destinations-tmpl").tmpl(e);
+    module.GetDestinations(function(res){
+        res.data.forEach(function(e){
+            $template = $("#destinations-tmpl").tmpl(e);
             $("#destinations-list").append($template);
         });
     });
 }
 
-function getInterests(pathname) {
-    $.post('/interests/list', {
-        '_token': $('meta[name=csrf-token]').attr('content'),
-        'pathname':pathname
-    }, function(data){
-    
-    data.forEach(function(e){
-        $template = $("#interests-tmpl").tmpl(e);
+function getInterests(page) {
+
+    module.GetInterests(page, function(res){
+        res.data.forEach(function(e){
+            $template = $("#interests-tmpl").tmpl(e);
             $("#interests-list").append($template);
         });
     });
